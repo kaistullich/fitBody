@@ -19,11 +19,11 @@ app.config['DATABASE_FILE'] = 'user_registration.sqlite'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://///Users/kai/github-projects/fitBody/user_registration.sqlite'
 # SQAlchemy Debug Purpose   
 app.config['SQLALCHEMY_ECHO'] = True
-# Supress warning when running app (SQLAlchemy uses significant overhead)
+# Suppress warning when running app (SQLAlchemy uses significant overhead)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 # Pass Flask App into SQLAlchemy
 db = SQLAlchemy(app)
-# Creating the admin navabar with Boostrap
+# Creating the admin navbar with Boostrap
 admin = Admin(app, template_mode='bootstrap3')
 
 
