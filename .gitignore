@@ -1,4 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea/
 .DS_Store
-user_registration.sqlite
+fitBody_registration.sqlite
+*__pycache__/*
+logfile.log
+fitBody/__pycache__/
