@@ -3,3 +3,4 @@
 .DS_Store
 fitBody_registration.sqlite
 *__pycache__*
+logfile.log
