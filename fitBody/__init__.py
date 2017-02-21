@@ -1,25 +1,24 @@
 import os
 from flask import Flask
-import my_app.source.views
-from my_app.source.views import my_view
+import fitbody.views
+from fitBody.views import my_view
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib import sqla
 from wtforms import fields, widgets
-import flask_restless
 
 # Create the app
 app = Flask(__name__)
 # Creates random generated key, so we can use session
 app.secret_key = os.urandom(24)
-# Register all the routes as my_view insead of app.route
+# Register all the routes as my_view instead of app.route
 app.register_blueprint(my_view)
 
 # Configure the name of the DB
-app.config['DATABASE_FILE'] = 'Centratech.sqlite'
+app.config['DATABASE_FILE'] = 'user_registration.sqlite'
 # Show full path to where DB is located
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://///Users/kai/github-projects/Centratech-Website/newProject/Centratech.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://///Users/kai/github-projects/fitBody/user_registration.sqlite'
 # SQAlchemy Debug Purpose   
 app.config['SQLALCHEMY_ECHO'] = True
 # Supress warning when running app (SQLAlchemy uses significant overhead)
@@ -28,6 +27,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db = SQLAlchemy(app)
 # Creating the admin navabar with Boostrap
 admin = Admin(app, template_mode='bootstrap3')
+
 
 # Create the WYSIWYG editor 
 class CKTextAreaWidget(widgets.TextArea):
@@ -72,7 +72,7 @@ class ProductEdit(ModelView):
     edit_template = 'edit.html'
 
     # Formats the description columns since it will be very long
-    def _description_formatter(view, context, model, name):
+    def _description_formatter(view, model):
         # If the description column is empty it will place an empty string for formatting purposes
         if model.description is None:
             return ""
@@ -85,20 +85,3 @@ class ProductEdit(ModelView):
 # Add views
 admin.add_view(ProductEdit(Product, db.session))
 admin.add_view(ModelView(Category, db.session))
-
-# Create the Flask-Restless API manager.
-manager = flask_restless.APIManager(app, flask_sqlalchemy_db=db)
-
-# Create API endpoints, which will be available at /api/<tablename> by default
-manager.create_api(Product,
-                    methods=['GET', 'POST'],
-                    url_prefix='/api/product/json', # product API now at /api/product/json
-                    results_per_page= -1, # < 0 to disable pagination
-                    max_results_per_page= -1 # < 0 to disable pagination
-                    )
-manager.create_api(Category,
-                    methods=['GET', 'POST'],
-                    url_prefix='/api/category/json',# category API now at /api/category/json
-                    results_per_page= -1, # < 0 to disable pagination
-                    max_results_per_page= -1 # < 0 to disable pagination
-                    )
