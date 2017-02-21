@@ -1,11 +1,9 @@
 import os
 from flask import Flask
-import fitbody.views
 from fitBody.views import my_view
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-from flask_admin.contrib import sqla
 from wtforms import fields, widgets
 
 # Create the app
