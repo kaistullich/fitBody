@@ -97,5 +97,5 @@ def register_page():
 
     except Exception as e:
         # logging.error(error_handling())
-        print('************ ERROR !!!!!!!!!!!!!!!!')
+        print(e)
     return render_template("register.html", form=form)
