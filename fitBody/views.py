@@ -1,5 +1,5 @@
-# import sys
-# import logging
+import sys
+import logging
 from flask import flash, redirect, render_template, request, session, Blueprint, url_for
 from fitBody.models import cursor, conn
 from fitBody.models import RegistrationForm
@@ -16,14 +16,15 @@ my_view = Blueprint('my_view', __name__)
 # 5 CRITICAL - something failed application must close
 # i.e. level=logging.DEBUG
 '''
-# logging.basicConfig(filename='logfile.log', format='\n%(asctime)s %(message)s', level=logging.DEBUG)
-#
-#
-# # formatting the output of the log
-# def error_handling():
-#     return ('\n{}. {}, @ line: {}'.format( sys.exc_info()[0],
-#                                      sys.exc_info()[1],
-#                                      sys.exc_info()[2].tb_lineno))
+logging.basicConfig(filename='logfile.log', format='\n%(asctime)s %(message)s', level=logging.DEBUG)
+
+
+# formatting the output of the log
+def error_handling():
+    return ('\n{}. {}, @ line: {}'.format(sys.exc_info()[0],
+                                          sys.exc_info()[1],
+                                          sys.exc_info()[2].tb_lineno))
+
 
 # ========================================================
 # ----------------- HOME PAGE LAYOUT ---------------------
@@ -51,6 +52,7 @@ def login():
             return redirect(url_for('admin.index'))
     return render_template('login.html', error=error)
 
+
 # ========================================================
 # ----------------- USER REGISTRATION PAGE ---------------
 # ========================================================
@@ -64,17 +66,13 @@ def register_page():
             username = form.username.data
             email = form.email.data
             salt = '@uI2Gg3ezB0o0o!i!@'
-            password = sha256_crypt.encrypt((str(form.password.data)+salt))
+            password = sha256_crypt.encrypt((str(form.password.data) + salt))
 
-            username_query = cursor.execute("SELECT user_username FROM registered_users WHERE user_username = (?)",
-                                            (username,))
+            username_query = cursor.execute("SELECT username FROM registration WHERE username = (?)", (username,))
+            username_check = cursor.fetchall(username_query)
 
-            username_check = cursor.fetchall()
-            print(username_check)  # prints a list
-
-            email_query = cursor.execute("SELECT user_email FROM registered_users WHERE user_email = (?)", (email,))
-            email_check = cursor.fetchall()
-            print(email_check)  # prints a list
+            email_query = cursor.execute("SELECT email FROM registration WHERE email = (?)", (email,))
+            email_check = cursor.fetchall(email_query)
 
             if len(username_check) > 0:
                 flash("Sorry that username is already taken, please choose another!")
@@ -85,7 +83,7 @@ def register_page():
                 return render_template('register.html', form=form)
 
             else:
-                cursor.execute("INSERT INTO registered_users (user_email, user_username, user_hash) VALUES (?, ?, ?)",
+                cursor.execute("INSERT INTO registration (email, username, hash) VALUES (?, ?, ?)",
                                (email, username, password))
                 conn.commit()
                 flash("Thanks for registering, {u}!".format(u=username))
@@ -96,6 +94,6 @@ def register_page():
                 return redirect(url_for('my_view.home'))
 
     except Exception as e:
-        # logging.error(error_handling())
-        print(e)
+        logging.error(error_handling())
+
     return render_template("register.html", form=form)
