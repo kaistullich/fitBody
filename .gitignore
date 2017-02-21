@@ -2,3 +2,4 @@
 .idea/
 .DS_Store
 user_registration.sqlite
+*__pycache__*
