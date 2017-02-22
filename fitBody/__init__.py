@@ -11,10 +11,6 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 app.register_blueprint(my_view)
 
-# app.debug used for Toolbar Extension
-# app.debug = True
-# toolbar = DebugToolbarExtension(app)
-
 # Configure the name of the DB
 app.config['DATABASE_FILE'] = 'fitBody_registration.sqlite'
 
