@@ -70,10 +70,10 @@ def register_page():
             password = sha256_crypt.encrypt((str(form.password.data) + salt))
 
             username_query = cursor.execute("SELECT username FROM registration WHERE username = (?)", (username,))
-            username_check = cursor.fetchall(username_query)
+            username_check = cursor.fetchall()
 
             email_query = cursor.execute("SELECT email FROM registration WHERE email = (?)", (email,))
-            email_check = cursor.fetchall(email_query)
+            email_check = cursor.fetchall()
 
             if len(username_check) > 0:
                 flash("Sorry that username is already taken, please choose another!")

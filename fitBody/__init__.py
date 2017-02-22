@@ -1,5 +1,4 @@
 import os
-
 from flask import Flask
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -50,6 +49,7 @@ class Registration(db.Model):
     email = db.Column(db.String(50))
     username = db.Column(db.String(20))
     hash = db.Column(db.String(350))
+    description = db.Column(db.UnicodeText())
 
 
 # Create class to be able to use the WYSIWYG editor
@@ -59,7 +59,7 @@ class RegistrationEdit(ModelView):
     edit_template = 'edit.html'
 
     # Formats the description columns since it will be very long
-    def _description_formatter(view, model):
+    def _description_formatter(view, context, model, name):
         # If the description column is empty it will place an empty string for formatting purposes
         if model.description is None:
             return ""
