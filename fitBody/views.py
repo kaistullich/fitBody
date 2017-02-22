@@ -1,5 +1,5 @@
-# import sys
-# import logging
+import sys
+import logging
 import bcrypt
 from flask import flash, redirect, render_template, request, session, Blueprint, url_for
 from fitBody.models import cursor, conn
@@ -17,14 +17,14 @@ my_view = Blueprint('my_view', __name__)
 # i.e. level=logging.DEBUG
 '''
 
-# logging.basicConfig(filename='logfile.log', format='\n%(asctime)s %(message)s', level=logging.DEBUG)
-#
-#
-# # formatting the output of the log
-# def error_handling():
-#     return ('\n{}. {}, @ line: {}'.format(sys.exc_info()[0],
-#                                           sys.exc_info()[1],
-#                                           sys.exc_info()[2].tb_lineno))
+logging.basicConfig(filename='logfile.log', format='\n%(asctime)s %(message)s', level=logging.ERROR)
+
+
+# formatting the output of the log
+def error_handling():
+    return ('\n{}. {}, @ line: {}'.format(sys.exc_info()[0],
+                                          sys.exc_info()[1],
+                                          sys.exc_info()[2].tb_lineno))
 
 
 # ========================================================
@@ -94,6 +94,6 @@ def register_page():
                 return redirect(url_for('my_view.home'))
 
     except Exception as e:
-        # logging.error(error_handling())
-        print(e)
+        logging.error(error_handling())
+
     return render_template("register.html", form=form)
