@@ -29,19 +29,6 @@ db = SQLAlchemy(app)
 admin = Admin(app, template_mode='bootstrap3')
 
 
-# Create the WYSIWYG editor
-class CKTextAreaWidget(widgets.TextArea):
-    def __call__(self, field, **kwargs):
-        # add WYSIWYG class to existing classes
-        existing_classes = kwargs.pop('class', '') or kwargs.pop('class_', '')
-        kwargs['class'] = u'%s %s' % (existing_classes, "ckeditor")
-        return super(CKTextAreaWidget, self).__call__(field, **kwargs)
-
-
-class CKTextAreaField(fields.TextAreaField):
-    widget = CKTextAreaWidget()
-
-
 # Create models (User Registration DB)
 class Registration(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
