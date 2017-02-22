@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flask_debugtoolbar import DebugToolbarExtension
 from fitBody.views import my_view
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
@@ -9,6 +10,9 @@ from wtforms import fields, widgets
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 app.register_blueprint(my_view)
+app.debug = True
+
+toolbar = DebugToolbarExtension(app)
 
 # Configure the name of the DB
 app.config['DATABASE_FILE'] = 'fitBody_registration.sqlite'
