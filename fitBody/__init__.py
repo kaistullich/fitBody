@@ -39,8 +39,8 @@ class Registration(db.Model):
 
 
 # Create class to be able to use the WYSIWYG editor
-class ProductEdit(ModelView):
-    # form_overrides = dict(description=CKTextAreaField)
+class RegistrationEdit(ModelView):
+    form_overrides = dict(description=CKTextAreaField)
     create_template = 'create.html'
     edit_template = 'edit.html'
 
@@ -57,4 +57,4 @@ class ProductEdit(ModelView):
     }
 
 # # Add views
-admin.add_view(ProductEdit(Registration, db.session))
+admin.add_view(RegistrationEdit(Registration, db.session))
