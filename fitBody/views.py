@@ -1,5 +1,6 @@
 # import sys
 # import logging
+import bcrypt
 from flask import flash, redirect, render_template, request, session, Blueprint, url_for
 from fitBody.models import cursor, conn
 from fitBody.models import RegistrationForm
@@ -66,8 +67,7 @@ def register_page():
         if request.method == "POST" and form.validate():
             username = form.username.data
             email = form.email.data
-            salt = '@uI2Gg3ezB0o0o!i!@'
-            password = sha256_crypt.encrypt((str(form.password.data) + salt))
+            password = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt(14))  # 14 = # of rounds
 
             username_query = cursor.execute("SELECT username FROM registration WHERE username = (?)", (username,))
             username_check = cursor.fetchall()
