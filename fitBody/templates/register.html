@@ -1,7 +1,6 @@
 {% extends 'navbar.html' %}
 
 {% block container %}
-<<<<<<< HEAD
 <head>
     <title>New Account</title>
     <!-- Font Awesome Icon -->
@@ -28,36 +27,8 @@
         {% if error %}
             <p class="error"><strong>Error:</strong>{{error}}</p>
         {% endif %}
-=======
-    <head>
-        <title>New Account</title>
-        <!-- Font Awesome Icon -->
-        <script src="https://use.fontawesome.com/73a1b37249.js"></script>
-    </head>
-    <body>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/register.css') }}">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-4 col-md-offset-4 register-box">
-            <h3>Create a New Account</h3>
-            <br>
-            {% from "_formhelpers.html" import render_field %}
-            <form method="POST" action="/register/" id="register-form">
-                <dl>
-                    {{render_field(form.username)}}
-                    {{render_field(form.email)}}
-                    {{render_field(form.password)}}
-                    {{render_field(form.confirm)}}
-                    {{render_field(form.accept_tos)}}
-                </dl>
-                <p><input class="btn btn-success" type="submit" value="Register"></p>
-            </form>
-            {% if error %}
-                <p class="error"><strong>Error:</strong>{{error}}</p>
-            {% endif %}
-            </div>
->>>>>>> webDesign
         </div>
     </div>
-    </body>
+</div>
+</body>
 {% endblock %}
