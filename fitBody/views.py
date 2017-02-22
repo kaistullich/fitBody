@@ -1,9 +1,11 @@
-import sys
 import logging
+import sys
+
 import bcrypt
 from flask import flash, redirect, render_template, request, session, Blueprint, url_for
-from fitBody.models import cursor, conn
+
 from fitBody.models import RegistrationForm
+from fitBody.models import cursor, conn
 
 my_view = Blueprint('my_view', __name__)
 

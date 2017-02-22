@@ -1,4 +1,5 @@
 import os
+
 from flask import Flask
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView

@@ -1,4 +1,5 @@
 import sqlite3
+
 from wtforms import Form, BooleanField, StringField, PasswordField, validators
 
 sqlite_file = 'fitBody_registration.sqlite'
