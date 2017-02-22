@@ -1,10 +1,12 @@
 import os
+
 from flask import Flask
-from fitBody.views import my_view
-from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_sqlalchemy import SQLAlchemy
 from wtforms import fields, widgets
+
+from fitBody.views import my_view
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
