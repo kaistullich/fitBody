@@ -1,10 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'navbar.html' %}
+{% block container %}
+<!DOCTYPE HTML>
 <head>
-    <meta charset="UTF-8">
-    <title>fitBody Login</title>
+    <title>ADMIN LOGIN</title>
 </head>
-<body>
-
+<body style="background-color: lightgrey">
+<div class="top-pad">
+    <div class="well">
+        <form action="" role="form" method="POST" style="text-align:center;">
+            <h2>MEMBER LOGIN</h2>
+            <label><b>Username:</b></label>
+            <input type="text" placeholder="Enter Username" name="username" value="{{ request.form.username }}"><br>
+            <label><b>Password: </b></label>
+            <input type="password" placeholder="Enter Password" name="password" value="{{ request.form.password }}"><br>
+            <input class="btn btn-primary" type="submit" value="Login">
+        </form><br>
+        <center>
+            <a href="{{ url_for('my_view.register_page')}}" class="btn btn-warning">New here? Register now!</a>
+        </center>
+    </div>
+</div>
 </body>
-</html>
+{% endblock %}

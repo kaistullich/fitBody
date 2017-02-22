@@ -1,7 +1,7 @@
 import sqlite3
 from wtforms import Form, BooleanField, StringField, PasswordField, validators
 
-sqlite_file = 'user_registration.sqlite'
+sqlite_file = 'fitBody_registration.sqlite'
 conn = sqlite3.connect(sqlite_file)
 cursor = conn.cursor()
 
