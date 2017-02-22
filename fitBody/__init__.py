@@ -1,11 +1,9 @@
 import os
 from flask import Flask
-from flask_debugtoolbar import DebugToolbarExtension
 from fitBody.views import my_view
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-from wtforms import fields, widgets
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -40,7 +38,6 @@ class Registration(db.Model):
 
 # Create class to be able to use the WYSIWYG editor
 class RegistrationEdit(ModelView):
-    form_overrides = dict(description=CKTextAreaField)
     create_template = 'create.html'
     edit_template = 'edit.html'
 
