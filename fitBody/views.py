@@ -4,7 +4,6 @@ import bcrypt
 from flask import flash, redirect, render_template, request, session, Blueprint, url_for
 from fitBody.models import cursor, conn
 from fitBody.models import RegistrationForm
-from passlib.hash import sha256_crypt
 
 my_view = Blueprint('my_view', __name__)
 
