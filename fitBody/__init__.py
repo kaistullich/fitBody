@@ -6,11 +6,11 @@ from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
 from wtforms import fields, widgets
 
-from fitBody.views import my_view
+from fitBody.views import fitBody
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-app.register_blueprint(my_view)
+app.register_blueprint(fitBody)
 
 # Configure the name of the DB
 app.config['DATABASE_FILE'] = 'fitBody_registration.sqlite'

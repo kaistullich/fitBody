@@ -7,7 +7,7 @@ from flask import flash, redirect, render_template, request, session, Blueprint,
 from fitBody.models import RegistrationForm
 from fitBody.models import cursor, conn
 
-my_view = Blueprint('my_view', __name__)
+fitBody = Blueprint('fitBody', __name__)
 
 '''
 # LOGGING LEVELS:
@@ -34,8 +34,8 @@ def error_handling():
 # ========================================================
 
 
-@my_view.route('/')
-@my_view.route('/home')
+@fitBody.route('/')
+@fitBody.route('/home')
 def home():
     return render_template('home.html')
 
@@ -45,7 +45,7 @@ def home():
 # ========================================================
 
 
-@my_view.route('/login', methods=['GET', 'POST'])
+@fitBody.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
@@ -61,7 +61,7 @@ def login():
 # ========================================================
 
 
-@my_view.route('/register/', methods=["GET", "POST"])
+@fitBody.route('/register/', methods=["GET", "POST"])
 def register_page():
     try:
         form = RegistrationForm(request.form)
@@ -93,7 +93,7 @@ def register_page():
                 session['logged_in'] = True
                 session['username'] = username
 
-                return redirect(url_for('my_view.home'))
+                return redirect(url_for('fitBody.home'))
 
     except Exception as e:
         logging.error(error_handling())
