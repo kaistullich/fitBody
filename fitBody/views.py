@@ -95,7 +95,7 @@ def register_page():
 
                 return redirect(url_for('fitBody.home'))
 
-    except Exception as e:
+    except Exception:
         logging.error(error_handling())
 
     return render_template("register.html", form=form)
