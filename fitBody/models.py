@@ -1,6 +1,6 @@
 import sqlite3
 
-from wtforms import BooleanField, StringField, PasswordField,
+from wtforms import BooleanField, StringField, PasswordField
 from flask_wtf import FlaskForm
 from wtforms.validators import InputRequired, Email, Length, EqualTo
 
@@ -15,7 +15,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password:', [
         InputRequired(),
         Length(min=8, max=30),
-        EqualTo('confirm', message='Passwords must match')
+        EqualTo('confirm', message='Passwords must match!')
     ])
     confirm = PasswordField('Confirm Password:')
     accept_tos = BooleanField("I accept the Terms of Service and Privacy", [InputRequired()])

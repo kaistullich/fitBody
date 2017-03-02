@@ -9,9 +9,16 @@ from wtforms import fields, widgets
 from fitBody.views import fitBody
 from flask_bootstrap import Bootstrap
 
+# Create the Flask app
 app = Flask(__name__)
+
+# Instantiate the Boostrap app
 Bootstrap(app)
+
+# Secret Key for cookies
 app.secret_key = os.urandom(24)
+
+# Create the blueprint for the app `@fitbody.route()`
 app.register_blueprint(fitBody)
 
 # Configure the name of the DB
