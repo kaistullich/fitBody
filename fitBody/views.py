@@ -64,7 +64,7 @@ def login():
 @fitBody.route('/register/', methods=["GET", "POST"])
 def register_page():
     try:
-        form = RegistrationForm(request.form)
+        form = RegistrationForm()
         if request.method == "POST" and form.validate():
             username = form.username.data
             email = form.email.data

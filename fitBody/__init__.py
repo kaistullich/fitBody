@@ -7,8 +7,10 @@ from flask_sqlalchemy import SQLAlchemy
 from wtforms import fields, widgets
 
 from fitBody.views import fitBody
+from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
+Bootstrap(app)
 app.secret_key = os.urandom(24)
 app.register_blueprint(fitBody)
 
