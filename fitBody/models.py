@@ -14,7 +14,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email Address:', [InputRequired(), Email('Invalid Email!')])
     password = PasswordField('Password:', [
         InputRequired(),
-        Length(min=8, max=30),
+        Length(min=4, max=30),
         EqualTo('confirm', message='Passwords must match!')
     ])
     confirm = PasswordField('Confirm Password:')
