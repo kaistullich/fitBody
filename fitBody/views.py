@@ -3,11 +3,21 @@ import sys
 
 import bcrypt
 from flask import flash, redirect, render_template, request, session, Blueprint, url_for
-
+from flask_mail import Mail, Message
+from flask import Flask
 from fitBody.models import RegistrationForm
 from fitBody.models import cursor, conn
 
 fitBody = Blueprint('fitBody', __name__)
+
+app = Flask(__name__)
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'fitbodycustomersuppprt@gmail.com'
+app.config['MAIL_PASSWORD'] = 'fitbody123'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
 
 '''
 # LOGGING LEVELS:
@@ -99,3 +109,17 @@ def register_page():
         logging.error(error_handling())
 
     return render_template("register.html", form=form)
+
+
+# ========================================================
+# ----------------- Mail Server --------------------------
+# ========================================================
+
+
+@fitBody.route("/mail")
+def mailing():
+    msg = Message('Hello', sender='fitbodycustomersuppprt@gmail.com', recipients=['kairstullich@gmail.com'])
+    msg.html = ("<b>Hello Kai!</b>"
+                "<h1> Thank you for registering with fitBody! </h1>")
+    mail.send(msg)
+    return "Sent"
