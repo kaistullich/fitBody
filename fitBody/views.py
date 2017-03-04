@@ -42,7 +42,7 @@ def home():
 # ========================================================
 # ----------------- ADMIN LOGIN PAGE ---------------------
 # ========================================================
-
+# TODO create flask login so it checks password for login, as well as session to show name in navbar
 
 @fitBody.route('/login', methods=['GET', 'POST'])
 def login():
@@ -58,7 +58,7 @@ def login():
 # ========================================================
 # ----------------- USER REGISTRATION PAGE ---------------
 # ========================================================
-
+# TODO change SQL statements to SQLAlchemy
 
 @fitBody.route('/register/', methods=["GET", "POST"])
 def register_page():
