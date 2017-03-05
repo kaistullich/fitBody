@@ -58,7 +58,7 @@ class Registration(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(50))
     username = db.Column(db.String(20))
-    hash = db.Column(db.String(350))
+    password = db.Column(db.String(350))
     description = db.Column(db.UnicodeText())
 
 
