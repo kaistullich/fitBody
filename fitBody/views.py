@@ -18,25 +18,46 @@ def home():
 
 
 # ========================================================
-# ----------------- ADMIN LOGIN PAGE ---------------------
+# ----------------- USER LOGIN PAGE ----------------------
 # ========================================================
-# TODO create flask login so it checks password for login, as well as session to show name in navbar
 
 @fitBody.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != 'admin' or request.form['password'] != 'admin':
-            flash('Username or Password is incorrect! Please try again')
+        username = cursor.execute("SELECT username, password FROM registration WHERE username = (?)", (request.form['username'],))
+        username = cursor.fetchall()
+        if request.form['username'] == username[0][0]:
+            if bcrypt.checkpw(request.form['password'].encode('utf-8'), username[0][1]):
+                session['username'] = username
+                return redirect(url_for('fitBody.home', error=error, session=session))
+            else:
+                flash('That username or password does not match our records!')
         else:
-            return redirect(url_for('admin.index'))
+            flash('That username or password does not match our records!')
+
     return render_template('login.html', error=error)
 
 # ========================================================
-# ------------------- USER LOGIN  ------------------------
+# ----------------- ADMIN LOGIN PAGE ---------------------
 # ========================================================
-# TODO create any user login, and show name when logged in (session)
 
+
+@fitBody.route('/employee', methods=['GET', 'POST'])
+def admin_login():
+    error = None
+    if request.method == 'POST':
+        admin= cursor.execute("SELECT username, password FROM admin WHERE username = (?)", (request.form['username'],))
+        admin = cursor.fetchall()
+        if request.form['username'] == admin[0][0]:
+            if bcrypt.checkpw(request.form['password'].encode('utf-8'), admin[0][1]):
+                return redirect(url_for('admin.index', error=error))
+            else:
+                flash('That username or password does not match our records!')
+        else:
+            flash('That username or password does not match our records!')
+
+    return render_template('employee.html', error=error)
 
 # ========================================================
 # ------------------- USER LOGOUT  -----------------------
@@ -47,7 +68,6 @@ def login():
 # ========================================================
 # ----------------- USER REGISTRATION PAGE ---------------
 # ========================================================
-# TODO change SQL statements to SQLAlchemy
 
 @fitBody.route('/register/', methods=["GET", "POST"])
 def register_page():
