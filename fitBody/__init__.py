@@ -59,7 +59,7 @@ class Registration(db.Model):
     email = db.Column(db.String(50))
     username = db.Column(db.String(20))
     password = db.Column(db.String(350))
-    description = db.Column(db.UnicodeText())
+    # description = db.Column(db.UnicodeText())
 
 
 # Create class to be able to use the WYSIWYG editor
