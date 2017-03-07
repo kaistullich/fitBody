@@ -10,7 +10,6 @@ fitBody = Blueprint('fitBody', __name__)
 # ----------------- HOME PAGE LAYOUT ---------------------
 # ========================================================
 
-
 @fitBody.route('/')
 @fitBody.route('/home')
 def home():
@@ -25,11 +24,12 @@ def home():
 def login():
     error = None
     if request.method == 'POST':
-        username = cursor.execute("SELECT username, password FROM registration WHERE username = (?)", (request.form['username'],))
-        username = cursor.fetchall()
-        if request.form['username'] == username[0][0]:
-            if bcrypt.checkpw(request.form['password'].encode('utf-8'), username[0][1]):
-                session['username'] = username
+        username_data = request.form['username']
+        username = cursor.execute("SELECT username, password FROM registration WHERE username = (?)", (username_data,))
+        username_all = cursor.fetchall()
+        if request.form['username'] == username_all[0][0]:
+            if bcrypt.checkpw(request.form['password'].encode('utf-8'), username_all[0][1]):
+                session['username'] = username_all[0]
                 return redirect(url_for('fitBody.home', error=error, session=session))
             else:
                 flash('That username or password does not match our records!')
@@ -38,16 +38,17 @@ def login():
 
     return render_template('login.html', error=error)
 
+
 # ========================================================
 # ----------------- ADMIN LOGIN PAGE ---------------------
 # ========================================================
-
 
 @fitBody.route('/employee', methods=['GET', 'POST'])
 def admin_login():
     error = None
     if request.method == 'POST':
-        admin= cursor.execute("SELECT username, password FROM admin WHERE username = (?)", (request.form['username'],))
+        username_data = request.form['username']
+        admin = cursor.execute("SELECT username, password FROM admin WHERE username = (?)", (username_data,))
         admin = cursor.fetchall()
         if request.form['username'] == admin[0][0]:
             if bcrypt.checkpw(request.form['password'].encode('utf-8'), admin[0][1]):
