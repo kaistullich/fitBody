@@ -25,7 +25,7 @@ def login():
     error = None
     if request.method == 'POST':
         username_data = request.form['username']
-        username = cursor.execute("SELECT username, password FROM registration WHERE username = (?)", (username_data,))
+        cursor.execute("SELECT username, password FROM registration WHERE username = (?)", (username_data,))
         username_all = cursor.fetchall()
         if request.form['username'] == username_all[0][0]:
             if bcrypt.checkpw(request.form['password'].encode('utf-8'), username_all[0][1]):
@@ -48,7 +48,7 @@ def admin_login():
     error = None
     if request.method == 'POST':
         username_data = request.form['username']
-        admin = cursor.execute("SELECT username, password FROM admin WHERE username = (?)", (username_data,))
+        cursor.execute("SELECT username, password FROM admin WHERE username = (?)", (username_data,))
         admin = cursor.fetchall()
         if request.form['username'] == admin[0][0]:
             if bcrypt.checkpw(request.form['password'].encode('utf-8'), admin[0][1]):
@@ -79,10 +79,10 @@ def register_page():
             email = form.email.data
             password = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt(14))  # 14 = # of rounds
 
-            username_query = cursor.execute("SELECT username FROM registration WHERE username = (?)", (username,))
+            cursor.execute("SELECT username FROM registration WHERE username = (?)", (username,))
             username_check = cursor.fetchall()
 
-            email_query = cursor.execute("SELECT email FROM registration WHERE email = (?)", (email,))
+            cursor.execute("SELECT email FROM registration WHERE email = (?)", (email,))
             email_check = cursor.fetchall()
 
             if len(username_check) > 0:
