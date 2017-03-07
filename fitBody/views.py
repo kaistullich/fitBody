@@ -1,31 +1,9 @@
-import logging
-import sys
-
 import bcrypt
 from flask import flash, redirect, render_template, request, session, Blueprint, url_for
 from fitBody.models import RegistrationForm
 from fitBody.models import cursor, conn
 
 fitBody = Blueprint('fitBody', __name__)
-
-'''
-# LOGGING LEVELS:
-# 1 DEBUG = detailed info
-# 2 INFO - confirmation that things according to plan
-# 3 WARNING - something unexpected
-# 4 ERROR - some function failed
-# 5 CRITICAL - something failed application must close
-# i.e. level=logging.DEBUG
-'''
-
-logging.basicConfig(filename='logfile.log', format='\n%(asctime)s %(message)s', level=logging.ERROR)
-
-
-# formatting the output of the log
-def error_handling():
-    return ('\n{}. {}, @ line: {}'.format(sys.exc_info()[0],
-                                          sys.exc_info()[1],
-                                          sys.exc_info()[2].tb_lineno))
 
 
 # ========================================================
@@ -105,7 +83,7 @@ def register_page():
 
                 return redirect(url_for('fitBody.home'))
 
-    except Exception:
-        logging.error(error_handling())
+    except Exception as e:
+        print(e)
 
     return render_template("register.html", form=form)
