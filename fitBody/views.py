@@ -26,10 +26,10 @@ def login():
     if request.method == 'POST':
         username_data = request.form['username']
         cursor.execute("SELECT username, password FROM registration WHERE username = (?)", (username_data,))
-        username_all = cursor.fetchall()
-        if request.form['username'] == username_all[0][0]:
-            if bcrypt.checkpw(request.form['password'].encode('utf-8'), username_all[0][1]):
-                session['username'] = username_all[0]
+        username = cursor.fetchall()
+        if request.form['username'] == username[0][0]:
+            if bcrypt.checkpw(request.form['password'].encode('utf-8'), username[0][1]):
+                session['username'] = username[0]
                 return redirect(url_for('fitBody.home', error=error, session=session))
             else:
                 flash('That username or password does not match our records!')
