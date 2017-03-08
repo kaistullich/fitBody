@@ -40,7 +40,7 @@
           <div class="session text-right">
               {% if session %}
                   <h5>Hello, {{ session.username }}!</h5>
-              {% elif not session %}
+              {% elif not session.username %}
                   <h5>Hello, <i>stranger</i> !</h5>
               {% endif %}
           </div>

@@ -72,6 +72,7 @@ def admin_login():
 @fitBody.route('/logout')
 def logout():
     session.pop('username', None)
+    flash('You\'ve been successfully signed out!')
     return redirect(url_for('fitBody.home'))
 
 
