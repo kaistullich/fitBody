@@ -9,6 +9,11 @@ conn = sqlite3.connect(sqlite_file)
 cursor = conn.cursor()
 
 
+class Login(FlaskForm):
+    username = StringField('Username:', [InputRequired(), Length(min=4, max=20)])
+    password = PasswordField('Password:', [InputRequired(), Length(min=4, max=20)])
+
+
 class RegistrationForm(FlaskForm):
     username = StringField('Username:', [InputRequired(), Length(min=4, max=20)])
     email = StringField('Email Address:', [InputRequired(), Email('Invalid Email!')])
