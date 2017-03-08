@@ -29,7 +29,7 @@ def login():
         username = cursor.fetchall()
         if request.form['username'] == username[0][0]:
             if bcrypt.checkpw(request.form['password'].encode('utf-8'), username[0][1]):
-                session['username'] = username[0]
+                session['username'] = username[0][0]
                 return redirect(url_for('fitBody.home', error=error, session=session))
             else:
                 flash('That username or password does not match our records!')
@@ -51,8 +51,9 @@ def admin_login():
         cursor.execute("SELECT username, password FROM admin WHERE username = (?)", (username_data,))
         admin = cursor.fetchall()
         if request.form['username'] == admin[0][0]:
-            if bcrypt.checkpw(request.form['password'].encode('utf-8'), admin[0][1]):
-                return redirect(url_for('admin.index', error=error))
+            if bcrypt.checkpw(request.form['password'].encode('utf-8'), admin[0][1].encode('utf-8')):
+                session['username'] = admin[0][0]
+                return redirect(url_for('admin.index', error=error, session=session))
             else:
                 flash('That username or password does not match our records!')
         else:
@@ -60,10 +61,14 @@ def admin_login():
 
     return render_template('employee.html', error=error)
 
+
 # ========================================================
 # ------------------- USER LOGOUT  -----------------------
 # ========================================================
 # TODO create logout for users
+@fitBody.route('/logout')
+def logout():
+    pass
 
 
 # ========================================================
