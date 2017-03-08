@@ -39,6 +39,8 @@
           <div class="session text-right">
               {% if session %}
                   <h5>Hello, {{ session.username }}!</h5>
+              {% elif not session %}
+                  <h5><i>stranger</i></h5>
               {% endif %}
           </div>
         </div><!-- /.navbar-collapse -->
