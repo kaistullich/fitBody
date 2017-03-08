@@ -34,7 +34,6 @@ db = SQLAlchemy(app)
 admin = Admin(app, template_mode='bootstrap3')
 
 
-
 sqlite_file = 'fitBody_registration.sqlite'
 conn = sqlite3.connect(sqlite_file)
 cursor = conn.cursor()
@@ -86,7 +85,8 @@ class RegistrationEdit(ModelView):
     edit_template = 'edit.html'
 
     # Formats the description columns since it will be very long
-    def _description_formatter(view, context, model, name):
+    @staticmethod
+    def _description_formatter(model):
         # If the description column is empty it will place an empty string for formatting purposes
         if model.description is None:
             return ""
