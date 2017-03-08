@@ -71,7 +71,8 @@ def admin_login():
 # TODO create logout for users
 @fitBody.route('/logout')
 def logout():
-    pass
+    session.pop('username', None)
+    return redirect(url_for('fitBody.home'))
 
 
 # ========================================================
