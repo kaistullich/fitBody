@@ -25,18 +25,21 @@ def home():
 def login():
     error = None
     form = Login()
-    if request.method == 'POST':
-        username_data = form.username.data
-        cursor.execute("SELECT username, password FROM registration WHERE username = (?)", (username_data,))
-        username = cursor.fetchall()
-        if form.username.data == username[0][0]:
-            if bcrypt.checkpw(form.username.data.encode('utf-8'), username[0][1]):
-                session['username'] = username[0][0]
-                return redirect(url_for('fitBody.home', error=error, session=session))
+    try:
+        if request.method == 'POST':
+            username_data = form.username.data
+            cursor.execute("SELECT username, password FROM registration WHERE username = (?)", (username_data,))
+            username = cursor.fetchall()
+            if form.username.data == username[0][0]:
+                if bcrypt.checkpw(form.username.data.encode('utf-8'), username[0][1]):
+                    session['username'] = username[0][0]
+                    return redirect(url_for('fitBody.home', error=error, session=session))
+                else:
+                    flash('That username or password does not match our records!')
             else:
                 flash('That username or password does not match our records!')
-        else:
-            flash('That username or password does not match our records!')
+    except IndexError:
+        flash('That username or password does not match our records!')
 
     return render_template('login.html', error=error, form=form)
 
@@ -49,18 +52,21 @@ def login():
 def admin_login():
     error = None
     form = Login()
-    if request.method == 'POST':
-        username_data = form.username.data
-        cursor.execute("SELECT username, password FROM admin WHERE username = (?)", (username_data,))
-        admin = cursor.fetchall()
-        if form.username.data == admin[0][0]:
-            if bcrypt.checkpw(form.password.data.encode('utf-8'), admin[0][1].encode('utf-8')):
-                session['username'] = admin[0][0]
-                return redirect(url_for('admin.index', error=error, session=session))
+    try:
+        if request.method == 'POST':
+            username_data = form.username.data
+            cursor.execute("SELECT username, password FROM admin WHERE username = (?)", (username_data,))
+            admin = cursor.fetchall()
+            if form.username.data == admin[0][0]:
+                if bcrypt.checkpw(form.password.data.encode('utf-8'), admin[0][1].encode('utf-8')):
+                    session['username'] = admin[0][0]
+                    return redirect(url_for('admin.index', error=error, session=session))
+                else:
+                    flash('That username or password does not match our records!')
             else:
                 flash('That username or password does not match our records!')
-        else:
-            flash('That username or password does not match our records!')
+    except IndexError:
+        flash('That username or password does not match our records!')
 
     return render_template('employee.html', error=error, form=form)
 
@@ -68,7 +74,7 @@ def admin_login():
 # ========================================================
 # ------------------- USER LOGOUT  -----------------------
 # ========================================================
-# TODO create logout for users
+
 @fitBody.route('/logout')
 def logout():
     session.pop('username', None)
