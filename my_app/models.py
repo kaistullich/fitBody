@@ -13,6 +13,7 @@ from my_app import app
 
 # Secret Key for cookies
 app.secret_key = os.urandom(24)
+
 # Instantiate the Boostrap app
 Bootstrap(app)
 # Configure the name of the DB
@@ -40,11 +41,13 @@ cursor = conn.cursor()
 
 
 class Login(FlaskForm):
+    """ Login form for all users"""
     username = StringField('Username:', [InputRequired(), Length(min=4, max=20)])
     password = PasswordField('Password:', [InputRequired(), Length(min=4, max=20)])
 
 
 class RegistrationForm(FlaskForm):
+    """ Registration form for new users"""
     username = StringField('Username:', [InputRequired(), Length(min=4, max=20)])
     email = StringField('Email Address:', [InputRequired(), Email('Invalid Email!')])
     password = PasswordField('Password:', [
@@ -56,8 +59,8 @@ class RegistrationForm(FlaskForm):
     accept_tos = BooleanField("I accept the Terms of Service and Privacy", [InputRequired()])
 
 
-# Create the WYSIWYG editor
 class CKTextAreaWidget(widgets.TextArea):
+    """ WYSIWYG Editor creation"""
     def __call__(self, field, **kwargs):
         # add WYSIWYG class to existing classes
         existing_classes = kwargs.pop('class', '') or kwargs.pop('class_', '')
@@ -69,8 +72,8 @@ class CKTextAreaField(fields.TextAreaField):
     widget = CKTextAreaWidget()
 
 
-# Create models (User Registration DB)
 class Registration(db.Model):
+    """ Creates a model for the Registration database table"""
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(50))
     username = db.Column(db.String(20))
@@ -78,8 +81,8 @@ class Registration(db.Model):
     # description = db.Column(db.UnicodeText())
 
 
-# Create class to be able to use the WYSIWYG editor
 class RegistrationEdit(ModelView):
+    """ Creates model view for Admin"""
     form_overrides = dict(description=CKTextAreaField)
     create_template = 'create.html'
     edit_template = 'edit.html'
