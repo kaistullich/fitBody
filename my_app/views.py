@@ -1,6 +1,6 @@
 import bcrypt
 from flask import flash, redirect, render_template, request, session, url_for
-from my_app.models import RegistrationForm, cursor, conn, Login, db
+from my_app.models import RegistrationForm, cursor, conn, Login, Registration, Admin
 
 from my_app import app
 
@@ -21,25 +21,19 @@ def home():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
     form = Login()
-    try:
-        if request.method == 'POST':
-            username_data = form.username.data
-            cursor.execute("SELECT username, password FROM registration WHERE username = (?)", (username_data,))
-            username = cursor.fetchall()
-            if form.username.data == username[0][0]:
-                if bcrypt.checkpw(form.username.data.encode('utf-8'), username[0][1]):
-                    session['username'] = username[0][0]
-                    return redirect(url_for('home', error=error, session=session))
-                else:
-                    flash('That username or password does not match our records!')
+    if form.validate_on_submit() and request.method == 'POST':
+        user = Registration.query.filter_by(username=form.username.data).first()
+        pwhash = bcrypt.checkpw(form.password.data.encode('utf-8'), user.password)
+        if user:
+            if pwhash:
+                return redirect(url_for('home'))
             else:
                 flash('That username or password does not match our records!')
-    except IndexError:
-        flash('That username or password does not match our records!')
+        else:
+            flash('That username or password does not match our records!')
 
-    return render_template('login.html', error=error, form=form)
+    return render_template('login.html', form=form)
 
 
 # ========================================================
@@ -48,25 +42,19 @@ def login():
 
 @app.route('/employee', methods=['GET', 'POST'])
 def admin_login():
-    error = None
     form = Login()
-    try:
-        if request.method == 'POST':
-            username_data = form.username.data
-            cursor.execute("SELECT username, password FROM admin WHERE username = (?)", (username_data,))
-            admin = cursor.fetchall()
-            if form.username.data == admin[0][0]:
-                if bcrypt.checkpw(form.password.data.encode('utf-8'), admin[0][1].encode('utf-8')):
-                    session['username'] = admin[0][0]
-                    return redirect(url_for('admin.index', error=error, session=session))
-                else:
-                    flash('That username or password does not match our records!')
+    if form.validate_on_submit() and request.method == 'POST':
+        user = Admin.query.filter_by(username=form.username.data).first()
+        pwhash = bcrypt.checkpw(form.password.data.encode('utf-8'), user.password.encode('utf-8'))
+        if user:
+            if pwhash:
+                return redirect(url_for('admin.index'))
             else:
                 flash('That username or password does not match our records!')
-    except IndexError:
-        flash('That username or password does not match our records!')
+        else:
+            flash('That username or password does not match our records!')
 
-    return render_template('employee.html', error=error, form=form)
+    return render_template('login.html', form=form)
 
 
 # ========================================================
