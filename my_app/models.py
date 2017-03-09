@@ -72,6 +72,13 @@ class CKTextAreaField(fields.TextAreaField):
     widget = CKTextAreaWidget()
 
 
+class Admin(db.Model):
+    """ Creates model for Admin database"""
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.String(20))
+    password = db.Column(db.String(350))
+
+
 class Registration(db.Model):
     """ Creates a model for the Registration database table"""
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
