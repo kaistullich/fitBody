@@ -24,10 +24,11 @@ def login():
     form = Login()
     if form.validate_on_submit() and request.method == 'POST':
         user = Registration.query.filter_by(username=form.username.data).first()
-        pwhash = bcrypt.checkpw(form.password.data.encode('utf-8'), user.password)
         if user:
-            if pwhash:
-                return redirect(url_for('home'))
+            psw_hash = bcrypt.checkpw(form.password.data.encode('utf-8'), user.password)
+            if psw_hash:
+                session['username'] = user.username
+                return redirect(url_for('home', session=session))
             else:
                 flash('That username or password does not match our records!')
         else:
@@ -45,10 +46,11 @@ def admin_login():
     form = Login()
     if form.validate_on_submit() and request.method == 'POST':
         user = Admin.query.filter_by(username=form.username.data).first()
-        pwhash = bcrypt.checkpw(form.password.data.encode('utf-8'), user.password.encode('utf-8'))
         if user:
-            if pwhash:
-                return redirect(url_for('admin.index'))
+            psw_hash = bcrypt.checkpw(form.password.data.encode('utf-8'), user.password.encode('utf-8'))
+            if psw_hash:
+                session['username'] = user.username
+                return redirect(url_for('admin.index', session=session))
             else:
                 flash('That username or password does not match our records!')
         else:
