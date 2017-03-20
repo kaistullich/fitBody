@@ -82,9 +82,9 @@ class Admin(db.Model):
 class Registration(db.Model):
     """ Creates a model for the Registration database table"""
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(50))
-    username = db.Column(db.String(20))
-    password = db.Column(db.String(350))
+    email = db.Column(db.String(50, nullable=False))
+    username = db.Column(db.String(20), nullable=False)
+    password = db.Column(db.String(60, nullable=False))
     # description = db.Column(db.UnicodeText())
 
 
