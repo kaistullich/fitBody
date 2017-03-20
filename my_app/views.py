@@ -1,7 +1,6 @@
 import bcrypt
 from flask import flash, redirect, render_template, request, session, url_for
-from my_app.models import RegistrationForm, cursor, conn, Login, Registration, Admin
-
+from my_app.models import RegistrationForm, cursor, conn, Login, Registration, Admin, db
 from my_app import app
 
 
@@ -78,31 +77,31 @@ def logout():
 def register_page():
     try:
         form = RegistrationForm()
-        if request.method == "POST" and form.validate():
+        if request.method == "POST" and form.validate_on_submit():
             username = form.username.data
             email = form.email.data
-            password = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt(14))  # 14 = # of rounds
-
-            cursor.execute("SELECT username FROM registration WHERE username = (?)", (username,))
-            username_check = cursor.fetchall()
-
-            cursor.execute("SELECT email FROM registration WHERE email = (?)", (email,))
-            email_check = cursor.fetchall()
-
-            if len(username_check) > 0:
+            password = bcrypt.hashpw(form.password.data.encode('utf-8'), bcrypt.gensalt(14))
+            
+            # Query DB for existing username
+            username_query = Registration.query.filter_by(username=username).first()
+            # Query DB for existing email
+            email_query = Registration.query.filter_by(email=email).first()
+            
+            # If username exits
+            if username_query:
                 flash("Sorry that username is already taken, please choose another!")
                 return render_template('register.html', form=form)
-
-            if len(email_check) > 0:
+                
+            # If email exists
+            if email_query:
                 flash('That email is already associated with another account, please use another!')
                 return render_template('register.html', form=form)
 
             else:
-                cursor.execute("INSERT INTO registration (email, username, password) VALUES (?, ?, ?)",
-                               (email, username, password))
-                conn.commit()
+                new_user = Registration(email=email, username=username, password=password)
+                db.session.add(new_user)
+                db.session.commit()
                 flash("Thanks for registering, {u}!".format(u=username))
-
                 session['logged_in'] = True
                 session['username'] = username
 
