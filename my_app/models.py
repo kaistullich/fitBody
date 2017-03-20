@@ -1,14 +1,15 @@
-import sqlite3
 import os
+import sqlite3
 
-from wtforms import BooleanField, StringField, PasswordField
-from flask_wtf import FlaskForm
-from wtforms.validators import InputRequired, Email, Length, EqualTo
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-from flask_sqlalchemy import SQLAlchemy
-from wtforms import fields, widgets
 from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import BooleanField, StringField, PasswordField
+from wtforms import fields, widgets
+from wtforms.validators import InputRequired, Email, Length, EqualTo
+
 from my_app import app
 
 # Secret Key for cookies

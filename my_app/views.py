@@ -1,7 +1,8 @@
 import bcrypt
 from flask import flash, redirect, render_template, request, session, url_for
-from my_app.models import RegistrationForm, cursor, conn, Login, Registration, Admin, db
+
 from my_app import app
+from my_app.models import RegistrationForm, Login, Registration, Admin, db
 
 
 # ========================================================
