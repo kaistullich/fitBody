@@ -29,7 +29,7 @@ def login():
         if user:
             psw_hash = bcrypt.checkpw(password.encode('utf-8'), user.password)
             if psw_hash:
-                session['username'] = user.username
+                session['username'] = username
                 return redirect(url_for('home', session=session))
             else:
                 flash('That username or password does not match our records!')
@@ -65,8 +65,8 @@ def logout():
 
 @app.route('/register/', methods=["GET", "POST"])
 def register_page():
+    form = RegistrationForm()
     try:
-        form = RegistrationForm()
         if request.method == "POST" and form.validate_on_submit():
             username = form.username.data
             email = form.email.data
