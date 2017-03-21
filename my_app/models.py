@@ -15,7 +15,7 @@ from my_app import app
 # Secret Key for cookies
 app.secret_key = os.urandom(24)
 
-# Instantiate the Boostrap app
+# Instantiate the Bootstrap app
 Bootstrap(app)
 
 # Configure the name of the DB

@@ -10,7 +10,6 @@ from my_app.models import RegistrationForm, Login, Registration, Admin, db
 # ========================================================
 
 @app.route('/')
-@app.route('/home')
 def home():
     return render_template('home.html')
 
