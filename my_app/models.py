@@ -17,6 +17,7 @@ app.secret_key = os.urandom(24)
 
 # Instantiate the Boostrap app
 Bootstrap(app)
+
 # Configure the name of the DB
 app.config['DATABASE_FILE'] = 'fitBody_registration.sqlite'
 
