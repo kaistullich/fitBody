@@ -110,4 +110,4 @@ class RegistrationEdit(ModelView):
     }
 
 # # Add views
-admin.add_view(RegistrationEdit(Registration, db.session))
+admin.add_view(RegistrationEdit(RegistrationDB, db.session))
