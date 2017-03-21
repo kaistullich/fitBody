@@ -1,5 +1,4 @@
 import os
-import sqlite3
 
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -35,11 +34,6 @@ db = SQLAlchemy(app)
 
 # Creating the admin navbar with Boostrap
 admin = Admin(app, template_mode='bootstrap3')
-
-
-sqlite_file = 'fitBody_registration.sqlite'
-conn = sqlite3.connect(sqlite_file)
-cursor = conn.cursor()
 
 
 class Login(FlaskForm):
