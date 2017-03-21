@@ -22,10 +22,12 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = Login()
+    username = form.username.data
+    password = form.password.data
     if form.validate_on_submit() and request.method == 'POST':
-        user = Registration.query.filter_by(username=form.username.data).first()
+        user = Registration.query.filter_by(username=username).first()
         if user:
-            psw_hash = bcrypt.checkpw(form.password.data.encode('utf-8'), user.password)
+            psw_hash = bcrypt.checkpw(password.encode('utf-8'), user.password)
             if psw_hash:
                 session['username'] = user.username
                 return redirect(url_for('home', session=session))
@@ -44,10 +46,12 @@ def login():
 @app.route('/employee', methods=['GET', 'POST'])
 def admin_login():
     form = Login()
+    username = form.username.data
+    password = form.password.data
     if form.validate_on_submit() and request.method == 'POST':
-        user = Admin.query.filter_by(username=form.username.data).first()
+        user = Admin.query.filter_by(username=username).first()
         if user:
-            psw_hash = bcrypt.checkpw(form.password.data.encode('utf-8'), user.password.encode('utf-8'))
+            psw_hash = bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8'))
             if psw_hash:
                 session['username'] = user.username
                 return redirect(url_for('admin.index', session=session))
