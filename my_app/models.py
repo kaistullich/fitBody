@@ -81,7 +81,7 @@ class Admin(db.Model):
     password = db.Column(db.String(350))
 
 
-class Registration(db.Model):
+class RegistrationDB(db.Model):
     """ Creates a model for the Registration database table"""
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(50))
