@@ -25,6 +25,7 @@ def login():
     password = form.password.data
     if form.validate_on_submit() and request.method == 'POST':
         user = Registration.query.filter_by(username=username).first()
+        admin = Admin.query.filter_by(username=username).first()
         if user:
             psw_hash = bcrypt.checkpw(password.encode('utf-8'), user.password)
             if psw_hash:
@@ -32,35 +33,19 @@ def login():
                 return redirect(url_for('home', session=session))
             else:
                 flash('That username or password does not match our records!')
-        else:
-            flash('That username or password does not match our records!')
 
-    return render_template('login.html', form=form)
-
-
-# ========================================================
-# ----------------- ADMIN LOGIN PAGE ---------------------
-# ========================================================
-
-@app.route('/employee', methods=['GET', 'POST'])
-def admin_login():
-    form = Login()
-    username = form.username.data
-    password = form.password.data
-    if form.validate_on_submit() and request.method == 'POST':
-        user = Admin.query.filter_by(username=username).first()
-        if user:
-            psw_hash = bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8'))
+        if admin:
+            psw_hash = bcrypt.checkpw(password.encode('utf-8'), admin.password.encode('utf-8'))
             if psw_hash:
-                session['username'] = user.username
+                session['username'] = username
                 return redirect(url_for('admin.index', session=session))
             else:
                 flash('That username or password does not match our records!')
+
         else:
             flash('That username or password does not match our records!')
 
     return render_template('login.html', form=form)
-
 
 # ========================================================
 # ------------------- USER LOGOUT  -----------------------
