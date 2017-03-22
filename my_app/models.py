@@ -1,4 +1,5 @@
 import os
+import json
 
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -11,6 +12,9 @@ from wtforms.validators import InputRequired, Email, Length, EqualTo
 
 from my_app import app
 
+with open('my_app/config.json') as config:
+    config_file = json.load(config)
+
 # Secret Key for cookies
 app.secret_key = os.urandom(24)
 
@@ -18,16 +22,16 @@ app.secret_key = os.urandom(24)
 Bootstrap(app)
 
 # Configure the name of the DB
-app.config['DATABASE_FILE'] = 'fitBody_registration.sqlite'
+app.config['DATABASE_FILE'] = config_file['DATABASE_FILE']
 
 # Show full path to where DB is located
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://///Users/kai/github-projects/fitBody/fitBody_registration.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = config_file['SQLALCHEMY_DATABASE_URI']
 
 # SQAlchemy Debug Purpose
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SQLALCHEMY_ECHO'] = bool(config_file['SQLALCHEMY_ECHO'])
 
 # Suppress warning when running app (SQLAlchemy uses significant overhead)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = bool(config_file['SQLALCHEMY_TRACK_MODIFICATIONS'])
 
 # Pass Flask App into SQLAlchemy
 db = SQLAlchemy(app)
