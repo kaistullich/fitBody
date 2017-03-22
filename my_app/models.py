@@ -28,10 +28,10 @@ app.config['DATABASE_FILE'] = config_file['DATABASE_FILE']
 app.config['SQLALCHEMY_DATABASE_URI'] = config_file['SQLALCHEMY_DATABASE_URI']
 
 # SQAlchemy Debug Purpose
-app.config['SQLALCHEMY_ECHO'] = bool(config_file['SQLALCHEMY_ECHO'])
+app.config['SQLALCHEMY_ECHO'] = config_file['SQLALCHEMY_ECHO']
 
 # Suppress warning when running app (SQLAlchemy uses significant overhead)
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = bool(config_file['SQLALCHEMY_TRACK_MODIFICATIONS'])
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config_file['SQLALCHEMY_TRACK_MODIFICATIONS']
 
 # Pass Flask App into SQLAlchemy
 db = SQLAlchemy(app)
